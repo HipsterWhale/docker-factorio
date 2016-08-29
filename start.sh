@@ -10,9 +10,9 @@ if [ ! -f /factorio/saves/settings.json ]; then
 fi
 
 if [ -z $1 ]; then
-  exec "/factorio/bin/x64/factorio --start-server /factorio/saves/map.zip --server-settings /factorio/saves/settings.json"
+  exec /factorio/bin/x64/factorio --start-server /factorio/saves/map.zip --server-settings /factorio/saves/settings.json
 elif [ "${1:0:1}" = '-' ]; then
-  exec "/factorio/bin/x64/factorio --start-server /factorio/saves/map.zip --server-settings /factorio/saves/settings.json $@"
+  exec /factorio/bin/x64/factorio --start-server /factorio/saves/map.zip --server-settings /factorio/saves/settings.json $@
 else
-  exec "$@"
+  exec $@
 fi
