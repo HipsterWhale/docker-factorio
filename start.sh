@@ -9,4 +9,10 @@ if [ ! -f /factorio/saves/settings.json ]; then
   exit 0
 fi
 
-exec "$@"
+if [ -z $1 ]; then
+  exec "/factorio/bin/x64/factorio --start-server /factorio/saves/map.zip --server-settings /factorio/saves/settings.json"
+elif [ "${1:0:1}" = '-' ]; then
+  exec "/factorio/bin/x64/factorio --start-server /factorio/saves/map.zip --server-settings /factorio/saves/settings.json $@"
+else
+  exec "$@"
+fi
