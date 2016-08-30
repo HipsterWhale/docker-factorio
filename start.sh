@@ -1,18 +1,16 @@
 #!/bin/bash
 
-if [ ! -f /factorio/saves/settings.json ]; then
-  /factorio/bin/x64/factorio --create /factorio/saves/map.zip
-  cp /factorio/data/server-settings.example.json /factorio/saves/settings.json
-  echo "Factorio have been downloaded and prepared for you."
-  echo "Please, configure the /factorio/settings.json file."
-  echo "Once configured, just restart the server, and it will work as expected."
-  exit 0
+if [ -z $FACTORIO_VERSION ]; then
+  echo "You must set the FACTORIO_VERSION variable."
+  exit 1
 fi
 
-if [ -z $1 ]; then
-  exec /factorio/bin/x64/factorio --start-server /factorio/saves/map.zip --server-settings /factorio/saves/settings.json
-elif [ "${1:0:1}" = '-' ]; then
-  exec /factorio/bin/x64/factorio --start-server /factorio/saves/map.zip --server-settings /factorio/saves/settings.json $@
-else
-  exec $@
-fi
+echo "Downloading the Factorio $FACTORIO_VERSION"
+echo "------------------------------------------"
+wget https://www.factorio.com/get-download/$FACTORIO_VERSION/headless/linux64 -O /tmp/factorio.tgz
+tar -xzf /tmp/factorio.tgz -C /
+rm /tmp/factorio.tgz
+
+echo "Launching Factorio"
+echo "------------------"
+exec /factorio/bin/x64/factorio $@
